@@ -14,6 +14,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "bower": "~1.2.8",
     "karma": "~0.12.0",
     "karma-jasmine": "~0.1.5",
     "karma-firefox-launcher": "~0.1.3",
