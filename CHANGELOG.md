@@ -1,3 +1,13 @@
+# 0.5.0 (2014-04-01)
+
+* Updated dependencies
+* Fixed build system to work with Bootstrap3
+* Ditched coffeescript from grunt
+* Added namespace to grunt variables coming from build.config.js
+* Replaces recess with grunt-contrib-less
+* Changed default compile directory to be `release` instead of `bin`
+* Removed unnecessary metaheaders from index which I would never like to have in bootstrap tempalate
+
 # 0.3.1 (2013-09-13)
 
 ## Features
