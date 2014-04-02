@@ -514,7 +514,7 @@ module.exports = function ( grunt ) {
    * 3. Compile / minify release.
    * 4. Copy deploy directory to final location in .war.
    */
-  grunt.registerTask( 'deploy', [ 'compile:release', 'copy:deploy']);
+  grunt.registerTask( 'deploy', [ 'release', 'copy:deploy']);
 
   /**
    * A utility function to get all app JavaScript sources.
