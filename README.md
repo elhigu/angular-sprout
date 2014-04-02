@@ -1,7 +1,13 @@
-# [ngBoilerplate](http://joshdmiller.github.com/ng-boilerplate) [![Build Status](https://travis-ci.org/joshdmiller/ng-boilerplate.png?branch=master)](https://travis-ci.org/joshdmiller/ng-boilerplate)
+# Minimal angular application template
+Based on wonderful ngbp (https://github.com/ngbp/ngbp) template by @joshdmiller 
 
-An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
-
+* Includes Bootstrap3 and angular ui-router
+* Generic app name to lessen work when using template to start new project.
+* Builds non-optimized, compiled and release versions of application
+* Supports selecting different profiles to development versions
+* Currently deploys only to certain path (e.g. under webapp/ if you like .war's)
+* TODO: allow deployment to CDN
+* TODO: build gh-pages to show how does it work
 ***
 
 ## Quick Start
@@ -9,15 +15,15 @@ An opinionated kickstarter for [AngularJS](http://angularjs.org) projects.
 Install Node.js and then:
 
 ```sh
-$ git clone git://github.com/joshdmiller/ng-boilerplate
-$ cd ng-boilerplate
+$ git clone git://github.com/elhigu/angular-sprout
+$ cd angular-sprout
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
 $ bower install
 $ grunt watch
 ```
 
-Finally, open `file:///path/to/ng-boilerplate/build/index.html` in your browser.
+Finally, open `file:///path/to/angular-sprout/build/debug/index.html` in your browser.
 
 Happy hacking!
 
