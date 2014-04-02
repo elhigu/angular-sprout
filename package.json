@@ -1,16 +1,12 @@
 {
-  "author": "Mikael Lepisto",
-  "name": "ng-boilerplate",
-  "version": "0.5.0",
-  "homepage": "",
-  "licenses": {
-    "type": "MIT",
-    "url": "https://raw.github.com/elhigu/ng-boilerplate/master/LICENSE"
-  },
-  "bugs": "https://github.com/elhigu/ng-boilerplate/issues",
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:elhigu/ng-boilerplate.git"
+  "author": "App Author",
+  "name": "ngapp",
+  "version": "0.1.0",
+  "homepage": "http://github.com/elhigu/angular-sprout",
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "http://github.com/elhigu/angular-sprout.git"
   },
   "dependencies": {},
   "devDependencies": {

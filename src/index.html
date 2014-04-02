@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="ngBoilerplate" ng-controller="AppCtrl">
+<html lang="en" ng-app="tazActivityAdmin" ng-controller="AppCtrl">
   <head>
     <title ng-bind="pageTitle"></title>
     <meta charset="UTF-8">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <!-- font awesome from BootstrapCDN -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
@@ -12,70 +13,44 @@
 
   </head>
   <body>
-    <div class="container">
-      <div class="masthead">
-        <h3 class="muted">ng-boilerplate <small><a
-              href="http://github.com/elhigu/ng-boilerplate/blob/master/CHANGELOG.md">v<%= version %></a></small></h3>
-        <div class="navbar">
-          <div class="navbar-inner">
-            <div class="container">
-              <ul class="nav">
-                <li ui-route="/home" ng-class="{active:$uiRoute}">
-                  <a href="#/home">
-                    <i class="icon-home"></i>
-                    Home
-                  </a>
-                </li>
-                <li ui-route="/about" ng-class="{active:$uiRoute}">
-                  <a href="#/about">
-                    <i class="icon-info-sign"></i>
-                    What is it?
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/elhigu/ng-boilerplate#readme">
-                    <i class="icon-book"></i>
-                    Read the Docs
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/elhigu/ng-boilerplate">
-                    <i class="icon-github-alt"></i>
-                    Github
-                  </a>
-                </li>
-                <li>
-                  <a href="https://github.com/elhigu/ng-boilerplate/issues">
-                    <i class="icon-comments"></i>
-                    Support
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+    <nav class="navbar navbar-default navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#home">Team Action Zone</a>
         </div>
+        <ul class="nav navbar-nav navbar-left">
+          <li ui-route="/results" ng-class="{active:$uiRoute}">
+            <a href="#/results/"><i class="icon-list-alt"></i> Results</a>
+          </li>          
+          <li ui-route="/home" ng-class="{active:$uiRoute}">
+            <a href="#/home"><i class="icon-home"></i> Home</a>
+          </li>          
+          <li ui-route="/about" ng-class="{active:$uiRoute}">
+            <a href="#/about"><i class="icon-info-sign"></i> What is it?</a>
+          </li>          
+        </ul>
       </div>
-    </div>
+    </nav>
 
     <div class="container" ui-view="main"></div>
 
+    <div class="page-header divider"></div>
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
           <p>
-            Based on template http://github.com/joshdmiller/ng-boilerplate made by Josh David Miller. 
-            <br />
-            Base gives you
-            <a href="http://www.angularjs.org">AngularJS</a>,
-            <a href="http://getbootstrap.com">Bootstrap</a>, 
-            <a href="http://angular-ui.github.com/bootstrap">UI Bootstrap</a>,
-            and 
-            <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a>.
+            Team Action Zone <%= version %>
           </p>
         </div>
       </div>
     </footer>
 
+    <script>
+      window.appConfiguration = {
+        backend: '<%= backend %>'
+      };
+    </script>
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
   </body>

@@ -7,7 +7,6 @@
     "angular-bootstrap": "~0.10.0",
     "angular-ui-router": "~0.2",
     "angular-ui-utils": "~0.1",
-    "angular-ui-bootstrap-bower": "~0.10.0",
     "bootstrap": "~3.1"
   },
   "dependencies": {}

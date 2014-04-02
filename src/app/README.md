@@ -42,7 +42,7 @@ submodules that need them to ensure proper dependency handling. These are
 app-wide dependencies that are required to assemble your app.
 
 ```js
-angular.module( 'ngBoilerplate', [
+angular.module( 'ngApp', [
   'templates-app',
   'templates-common',
   'ngBoilerplate.home',
