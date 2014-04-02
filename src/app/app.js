@@ -1,4 +1,4 @@
-angular.module( 'tazActivityAdmin', [
+angular.module( 'appMain', [
   'templates-app',
   'templates-common',
   'app.home',
@@ -18,7 +18,7 @@ angular.module( 'tazActivityAdmin', [
 .controller( 'AppCtrl', [ '$scope', '$location', function AppCtrl ( $scope, $location ) {
   $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
     if ( angular.isDefined( toState.data.pageTitle ) ) {
-      $scope.pageTitle = toState.data.pageTitle + ' | tazActivityAdmin' ;
+      $scope.pageTitle = toState.data.pageTitle + ' | appMain' ;
     }
   });
 }])
