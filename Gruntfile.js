@@ -98,7 +98,7 @@ module.exports = function ( grunt ) {
           }
        ]
       },
-      build_vendor_assets: {
+      vendor_assets: {
         files: [
           {
             src: [ '<%= bc.vendor_files.assets %>' ],
@@ -106,8 +106,39 @@ module.exports = function ( grunt ) {
             cwd: '.',
             expand: true,
             flatten: true
+          },
+          {
+            src: [ '<%= bc.vendor_files.assets %>' ],
+            dest: '<%= bc.compile_dir %>/assets/',
+            cwd: '.',
+            expand: true,
+            flatten: true
           }
-       ]
+        ]
+      },
+      build_vendor_directories: {
+        files: grunt.util._.map(userConfig.bc.vendor_files.dirs, function (directory) {
+          var files_entry = {
+            src: ['**'],
+            dest: path.join(userConfig.bc.build_dir, directory.dst_path),
+            cwd: directory.src_path,
+            expand: true
+          };
+          console.log("Directory copy entry:", files_entry);
+          return files_entry;
+        })
+      },
+      compile_vendor_directories: {
+        files: grunt.util._.map(userConfig.bc.vendor_files.dirs, function (directory) {
+          var files_entry = {
+            src: ['**'],
+            dest: path.join(userConfig.bc.compile_dir, directory.dst_path),
+            cwd: directory.src_path,
+            expand: true
+          };
+          console.log("Directory copy entry:", files_entry);
+          return files_entry;
+        })
       },
       build_appjs: {
         files: [
@@ -202,7 +233,7 @@ module.exports = function ( grunt ) {
      */
     less: {
 
-      dist: {
+      build: {
         options: {
           sourceMap: true,
           outputSourceFiles: true
@@ -490,7 +521,8 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less', 'copy:build_app_assets', 'copy:build_vendor_assets',
+    'clean', 'html2js', 'jshint', 'less:build', 'copy:build_app_assets', 'copy:vendor_assets', 
+    'copy:build_vendor_directories', 'copy:compile_vendor_directories',
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig', 'karma:continuous'
   ]);
 

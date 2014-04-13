@@ -19,7 +19,7 @@ module.exports = {
     build_dir: path.join(build_base, 'debug'),
     compile_dir: path.join(build_base, 'compiled'),
     release_dir: path.join(build_base, 'release'),
-    deploy_dir: '../server/src/main/webapp/app',
+    deploy_dir: '../somewhereelse/src/main/webapp/app',
 
     /**
      * Backend uri where to send requests for *deployed* application
@@ -81,11 +81,16 @@ module.exports = {
         'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
         'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'vendor/angular-ui-router/release/angular-ui-router.js',
-        'vendor/angular-ui-utils/modules/route/route.js'
+        'vendor/angular-ui-utils/modules/route/route.js',
+        'vendor/lodash/dist/lodash.js',
+        'vendor/moment/moment.js'
       ],
       css: [
       ],
       assets: [
+      ],
+      dirs: [
+        { src_path: 'vendor/bootstrap/fonts', dst_path: 'fonts' }
       ]
     }
   }
