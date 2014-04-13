@@ -25,51 +25,33 @@ $ grunt watch
 
 Finally, open `file:///path/to/angular-sprout/build/debug/index.html` in your browser.
 
-Happy hacking!
+Currently build system creates 3 different builds.
+
+`grunt build` build/debug/index.html (destination directory configured in 
+`build.config.js`). `index.html` contains links to each separate javascript file in
+project and contains everything in easy debuggable format.
+
+`grunt compile` build/compiled/index.html (destination directory configured in 
+`build.config.js`). Compiled build has minimised and compressed javasctipts.
+
+`grunt release` build/release/index.html and build/release/debu/index.html
+Release build reads place where backend is found directly from settings
+stored in `build.config.js`. Release build contains compiled and debug
+versions. This one should go to staging / production environment.
+
 
 ## Purpose
 
-`ngBoilerplate` is designed to make life easy by providing a basic framework
-with which to kickstart AngularJS projects. It contains a best-practice
-directory structure to ensure code reusability and maximum scalability.
-ngBoilerplate also comes prepackaged with the most popular design frameworks
-around: [Twitter Bootstrap](http://getbootstrap.com),
-[Angular UI](http://angular-ui.github.io),
-[Angular Bootstrap](http://angular-ui.github.io/bootstrap),
-[Font Awesome](http://fortawesome.github.com/Font-Awesome), and
-[LESS](http://lesscss.org). Lastly, it contains a sophisticated
-[Grunt](http://gruntjs.org)-based build system to ensure maximum productivity.
-All you have to do is clone it and start coding!
+Project template is designed to make life easy by providing a basic structure
+and libraries to kickstart AngularJS projects with.
 
-## Philosophy
-
-The principal goal of `ngBoilerplate` is to set projects up for long-term
-success.  So `ngBoilerplate` tries to follow best practices everywhere it can.
-These are:
-
-- Properly orchestrated modules to encourage drag-and-drop component re-use.
-- Tests exist alongside the component they are testing with no separate `test`
-  directory required; the build process should be sophisticated enough to handle
-  this.
-- Speaking of which, the build system should work automagically, without
-  involvement from the developer. It should do what needs to be done, while
-  staying out of the way. Components should end up tested, linted, compiled,
-  and minified, ready for use in a production environment.
-- Integration with popular tools like Bower, Karma, and LESS.
-- *Encourages* test-driven development. It's the only way to code.
-- A directory structure that is cogent, meaningful to new team members, and
-  supporting of the above points.
-- Well-documented, to show new developers *why* things are set up the way they
-  are.
-- It should be responsive to evidence. Community feedback is therefore crucial
-  to the success of `ngBoilerplate`.
-
-But `ngBoilerplate` is not an example of an AngularJS app: this is a
-kickstarter. If you're looking for an example of what a complete, non-trivial
-AngularJS app that does something real looks like, complete with a REST backend
-and authentication and authorization, then take a look at
-[`angular-app`](http://github.com/angular-app/angular-app), which does just
-that - and does it well.
+* [Twitter Bootstrap](http://getbootstrap.com)
+* UI router [Angular UI](http://angular-ui.github.io)
+* Bootstrap components without jQuery [Angular Bootstrap](http://angular-ui.github.io/bootstrap)
+* Lodash.js & moment.js
+* Awesome [Font Awesome](http://fortawesome.github.com/Font-Awesome)
+* Reasonable CSS coding with [LESS](http://lesscss.org)
+* Build system [Grunt](http://gruntjs.org)
 
 ## Learn
 
@@ -78,7 +60,7 @@ that - and does it well.
 At a high level, the structure looks roughly like this:
 
 ```
-ng-boilerplate/
+angular-sprout/
   |- grunt-tasks/
   |- karma/
   |- src/
