@@ -39,6 +39,14 @@ Release build reads place where backend is found directly from settings
 stored in `build.config.js`. Release build contains compiled and debug
 versions. This one should go to staging / production environment.
 
+`build.config.js` This file contains info of build directories, where to deploy
+release version etc. If you need to add new library, just add it to `bower.json`
+and here to include it to build.
+
+`profiles/*.js` These are developer profiles. If you need to use e.g. different beckend
+while developing, you can just add your profile here and give `--profile` switch to grunt
+to select your active developer profile. This profile will not affect to your `grunt release`
+product, so release config is still always read directly from `build.config.js`.
 
 ## Purpose
 
