@@ -8,6 +8,7 @@ Based on wonderful ngbp (https://github.com/ngbp/ngbp) template by @joshdmiller
 * Currently deploys only to certain path (e.g. under webapp/ if you like .war's)
 * TODO: allow deployment to CDN
 * TODO: build gh-pages to show how does it work
+* TODO: make grunt watch to work better...
 ***
 
 ## Quick Start
