@@ -411,6 +411,15 @@ module.exports = function ( grunt ) {
      * and forget it, as Ron Popeil used to tell us.
      *
      * But we don't need the same thing to happen for all the files.
+     *
+     * TODO: different watches... 
+     *       watch build, 
+     *       watch compile, 
+     *       watch release, 
+     *       watch deploy
+     * 
+     * TODO: Fix if index.html / build.config.js / selected-profile.js /
+     *       profile is changed it should be recognized.
      */
     delta: {
       /**
