@@ -2,7 +2,6 @@ angular.module( 'appMain', [
   'templates-app',
   'templates-common',
   'app.home',
-  'app.about',
   'app.results',
   'ui.router.state',
   'ui.router'
