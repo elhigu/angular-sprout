@@ -84,7 +84,6 @@ angular-sprout/
   |- vendor/
   |  |- angular-bootstrap/
   |  |- bootstrap/
-  |  |- placeholders/
   |- .bowerrc
   |- bower.json
   |- build.config.js 
@@ -102,8 +101,7 @@ learn more.
 - `src/` - our application sources. [Read more &raquo;](src/README.md)
 - `vendor/` - third-party libraries. [Bower](http://bower.io) will install
   packages here. Anything added to this directory will need to be manually added
-  to `build.config.js` and `karma/karma-unit.js` to be picked up by the build
-  system.
+  to `build.config.js` to be picked up by the build system.
 - `.bowerrc` - the Bower configuration file. This tells Bower to install
   components into the `vendor/` directory.
 - `bower.json` - this is our project configuration for Bower and it contains the
@@ -116,3 +114,38 @@ learn more.
 - `package.json` - metadata about the app, used by NPM and our build script. Our
   NPM dependencies are listed here.
 
+## Dev Stories (how to do common things you usually would like to do when creating app)
+
+### You have problem in production, but code is compiled and there are no source maps etc.
+
+By default we include compiled and debug versions of code to release version of app. If 
+your app is located in `https://example.org/theapp/index.html then you can checkout debug 
+version in `https://example.org/theapp/debug/index.html`
+
+### Add new library with Bower
+
+Add library to your `bower.json` and add line to `build.config.js` to include it
+to application.
+
+### Copy complete directory from vendor path to compiled program
+
+Check how bootstrap fonts are copied there in `build.config.js`.
+
+### Add new style sheet for module
+
+Add `.less` file to `src/app/modulename/somestyle.less`. Add `@import` statement to 
+end of `src/less/main.less`.
+
+### Create different backend configuration for local development
+
+Add new profile file to `profiles/yourprofile.js` and run `grunt --profile=yourprofile`
+it will create `selected-profile.js` which will be used by default for rest of grunt 
+commands.
+
+### Deploy to staging, production, S3, rackspace, anywhere
+
+Currently only deployment to certain directory is supported. 
+
+TODO: add support for multiple deployment profiles (production, staging) and 
+      destinations e.g. to rackspace, S3, directory, with debug or not, etc.
+      and ask deployment key for first deployment (don't store it to repo).
