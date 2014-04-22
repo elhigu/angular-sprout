@@ -8,7 +8,7 @@ angular.module( 'appMain', [
 ])
 
 .config( ['$stateProvider', '$urlRouterProvider', function myAppConfig ( $stateProvider, $urlRouterProvider ) {
-  $urlRouterProvider.otherwise( '/about' );
+  $urlRouterProvider.otherwise( '/home' );
 }])
 
 .run( function run () {

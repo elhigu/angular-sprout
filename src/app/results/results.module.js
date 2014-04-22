@@ -9,6 +9,9 @@ angular.module( 'app.results', [
   $stateProvider.state( 'results', {
     url: '/results/:id',
     views: {
+      "nav": {
+        templateUrl: 'nav/nav.tpl.html'
+      },
       "main": {
         controller: 'ResultsCtrl',
         templateUrl: 'results/results.tpl.html'

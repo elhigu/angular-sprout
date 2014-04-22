@@ -17,19 +17,9 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#home">The Head</a>
+            <a class="navbar-brand"  ui-sref="home">The Head</a>
         </div>
-        <ul class="nav navbar-nav navbar-left">
-          <li ui-route="/results" ng-class="{active:$uiRoute}">
-            <a href="#/results/"><i class="icon-list-alt"></i> Results</a>
-          </li>          
-          <li ui-route="/home" ng-class="{active:$uiRoute}">
-            <a href="#/home"><i class="icon-home"></i> Home</a>
-          </li>          
-          <li ui-route="/about" ng-class="{active:$uiRoute}">
-            <a href="#/about"><i class="icon-info-sign"></i> What is it?</a>
-          </li>          
-        </ul>
+        <div ui-view="nav"></div>
       </div>
     </nav>
 
