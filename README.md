@@ -87,7 +87,7 @@ angular-sprout/
   |  |- placeholders/
   |- .bowerrc
   |- bower.json
-  |- build.config.js
+  |- build.config.js 
   |- Gruntfile.js
   |- module.prefix
   |- module.suffix
@@ -108,9 +108,8 @@ learn more.
   components into the `vendor/` directory.
 - `bower.json` - this is our project configuration for Bower and it contains the
   list of Bower dependencies we need.
-- `build.config.js` - our customizable build settings; see "The Build System"
-  below.
-- `Gruntfile.js` - our build script; see "The Build System" below.
+- `build.config.js` - our customizable build settings
+- `Gruntfile.js` - our build scripts
 - `module.prefix` and `module.suffix` - our compiled application script is
   wrapped in these, which by default are used to place the application inside a
   self-executing anonymous function to ensure no clashes with other libraries.
