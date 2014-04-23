@@ -149,3 +149,7 @@ Currently only deployment to certain directory is supported.
 TODO: add support for multiple deployment profiles (production, staging) and 
       destinations e.g. to rackspace, S3, directory, with debug or not, etc.
       and ask deployment key for first deployment (don't store it to repo).
+
+### Can I use CoffeeScript with this project template?
+
+No.
