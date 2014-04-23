@@ -114,7 +114,7 @@ learn more.
 - `package.json` - metadata about the app, used by NPM and our build script. Our
   NPM dependencies are listed here.
 
-## Dev Stories (how to do common things you usually would like to do when creating app)
+## FAQ
 
 ### You have problem in production, but code is compiled and there are no source maps etc.
 
