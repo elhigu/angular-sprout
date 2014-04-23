@@ -119,7 +119,7 @@ learn more.
 ### You have problem in production, but code is compiled and there are no source maps etc.
 
 By default we include compiled and debug versions of code to release version of app. If 
-your app is located in `https://example.org/theapp/index.html then you can checkout debug 
+your app is located in `https://example.org/theapp/index.html` then you can checkout debug 
 version in `https://example.org/theapp/debug/index.html`
 
 ### Add new library with Bower
