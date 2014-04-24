@@ -81,6 +81,8 @@ module.exports = {
         'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
         'vendor/angular-ui-router/release/angular-ui-router.js',
         'vendor/angular-ui-utils/modules/route/route.js',
+        'vendor/angular-translate/angular-translate.js',
+        'vendor/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
         'vendor/lodash/dist/lodash.js',
         'vendor/moment/moment.js'
       ],

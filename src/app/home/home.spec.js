@@ -5,6 +5,7 @@
  * automatically.
  */
 describe( 'home section', function() {
+  beforeEach( module( 'pascalprecht.translate' ) );
   beforeEach( module( 'app.home' ) );
 
   it( 'should have a dummy test', inject( function() {
