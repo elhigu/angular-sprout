@@ -17,7 +17,18 @@ module.exports = function ( karma ) {
       'src/assets/**/*.js'
     ],
     frameworks: [ 'jasmine' ],
-    plugins: [ 'karma-jasmine', 'karma-firefox-launcher', 'karma-chrome-launcher', 'karma-phantomjs-launcher', 'karma-coffee-preprocessor' ],
+    plugins: [ 'karma-jasmine', 
+        'karma-firefox-launcher', 
+        'karma-chrome-launcher', 
+        'karma-phantomjs-launcher', 
+        'karma-safari-launcher', 
+        'karma-ie-launcher', 
+// ---- check these if they work ----
+// karma-iebrowsers-launcher
+// karma-ievms
+// karma-ios-launcher
+// karma-opera-launcher
+        'karma-coffee-preprocessor' ],
     preprocessors: {
       '**/*.coffee': 'coffee',
     },
@@ -55,8 +66,9 @@ module.exports = function ( karma ) {
      */
     browsers: [
       'PhantomJS'
-//      'Chrome',
-//      'Firefox',
+//     ,'Chrome'
+//     ,'Firefox'
+//     ,'Safari'
     ]
   });
 };
