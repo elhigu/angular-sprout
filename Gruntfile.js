@@ -13,6 +13,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-karma'); 
   grunt.loadNpmTasks('grunt-html2js');
+  grunt.loadNpmTasks('grunt-express');
 
   var path = require('path');
 
@@ -76,11 +77,17 @@ module.exports = function ( grunt ) {
     /**
      * The directories to delete when `grunt clean` is executed.
      */
-    clean: [
-      '<%= bc.build_dir %>',
-      '<%= bc.compile_dir %>',
-      '<%= bc.release_dir %>'
-    ],
+    clean: {
+      build: [
+        '<%= bc.build_dir %>'
+      ],
+      compile: [
+        '<%= bc.compile_dir %>'
+      ],
+      release: [
+        '<%= bc.release_dir %>'
+      ]
+    },
 
     /**
      * The `copy` task just copies files from A to B. We use it here to copy
@@ -386,6 +393,19 @@ module.exports = function ( grunt ) {
 
     },
 
+    express: {
+      server: {
+        options: {
+          port: 3031,
+          bases: ['build/debug', 'build'],
+          livereload: true,
+          middleware: function (connect) {
+            console.log("Serving debug version in http://localhost:3031 and compiled in http://localhost:3031/compiled");
+          }
+        }
+      }
+    },
+
     /**
      * This task compiles the karma template so that changes to its file array
      * don't have to be managed manually.
@@ -519,7 +539,7 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'karma:unit', 'delta' ] );
+  grunt.registerTask( 'watch', [ 'build', 'express', 'delta' ] );
 
   /**
    * The default task is to build and compile.
@@ -530,7 +550,7 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean', 'html2js', 'jshint', 'less:build', 'copy:build_app_assets', 'copy:vendor_assets', 
+    'clean:build', 'html2js', 'jshint', 'less:build', 'copy:build_app_assets', 'copy:vendor_assets', 
     'copy:build_vendor_directories', 'copy:compile_vendor_directories',
     'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig', 'karma:continuous'
   ]);
@@ -540,11 +560,11 @@ module.exports = function ( grunt ) {
    * minifying your code to release directory.
    */
   grunt.registerTask( 'compile', [
-    'build', 'less:compile', 'concat:compile_js', 'uglify:compile', 'index:compile'
+    'build', 'clean:compile', 'less:compile', 'concat:compile_js', 'uglify:compile', 'index:compile'
   ]);
 
   grunt.registerTask( 'release', [
-    'compile', 'copy:create_release', 'index:release_build', 'index:release_compile'
+    'compile', 'clean:release', 'copy:create_release', 'index:release_build', 'index:release_compile'
   ]);
 
   /**

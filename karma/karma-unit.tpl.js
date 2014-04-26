@@ -69,6 +69,7 @@ module.exports = function ( karma ) {
 //     ,'Chrome'
 //     ,'Firefox'
 //     ,'Safari'
+//     ,'IE'
     ]
   });
 };

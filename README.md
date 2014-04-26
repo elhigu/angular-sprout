@@ -62,7 +62,6 @@ and libraries to kickstart AngularJS projects with.
 * Reasonable CSS coding with [LESS](http://lesscss.org)
 * Build system [Grunt](http://gruntjs.org)
 
-## Learn
 
 ### Overall Directory Structure
 
@@ -113,6 +112,20 @@ learn more.
   self-executing anonymous function to ensure no clashes with other libraries.
 - `package.json` - metadata about the app, used by NPM and our build script. Our
   NPM dependencies are listed here.
+
+## Grunt tasks
+
+### Watch
+
+This monitors file changes and rebuild changed files to debug build. If you like to try
+out compiled version, you need to run `grunt compile watch` separately on every change 
+(watch does not build compiled version automatically). Wach is required to prevent 
+server serving application in port 3031 to not close.  
+
+### Express
+
+Serves debug version in `http://localhost:3031` and compiled in `http://localhost:3031/compiled`
+Compiled version is not updated automatically with watch.
 
 ## FAQ
 
