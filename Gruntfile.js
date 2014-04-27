@@ -14,6 +14,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-karma'); 
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-express');
+  grunt.loadNpmTasks('grunt-angular-translate');
 
   var path = require('path');
 
@@ -525,6 +526,21 @@ module.exports = function ( grunt ) {
         options: {
           livereload: false
         }
+      }
+    },
+
+    /**
+     * i18nextract build json lang files
+     */
+    i18nextract: {
+      default_options: {
+        src:         [ '<%= bc.app_files.atpl %>', '<%= bc.app_files.ctpl %>', '<%= bc.app_files.js %>' ],
+        lang:        ['en', 'fi'],
+        jsonSrc:     'src/assets/i18n/*.json',
+        dest:        'src/assets/i18n',
+        defaultLang: 'en',
+        nullEmpty:   true, /* null should provide english translation */
+        safeMode:    true
       }
     }
   };

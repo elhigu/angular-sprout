@@ -127,6 +127,10 @@ server serving application in port 3031 to not close.
 Serves debug version in `http://localhost:3031` and compiled in `http://localhost:3031/compiled`
 Compiled version is not updated automatically with watch.
 
+### i18nextract
+
+Collect all keys to translate.
+
 ## FAQ
 
 ### You have problem in production, but code is compiled and there are no source maps etc.
