@@ -12,8 +12,6 @@ angular.module( 'appMain', [
   $urlRouterProvider.otherwise( '/home' );
 }])
 
-// TODO: serve files from grunt, ajax calls does not work from file://
-/*
 .config(['$translateProvider', function ($translateProvider) {
   // Initialize angular-translate
   $translateProvider.useStaticFilesLoader({
@@ -24,19 +22,6 @@ angular.module( 'appMain', [
   $translateProvider.preferredLanguage('fi');
   // $translateProvider.useLocalStorage();
   // $translateProvider.useMissingTranslationHandlerLog();
-}])
-*/
-
-.config(['$translateProvider', function ($translateProvider) {
-  $translateProvider.translations('en', {
-    'Home': 'Home'
-  });
- 
-  $translateProvider.translations('fi', {
-    'Home': 'Koti'
-  });
- 
-  $translateProvider.preferredLanguage('fi');
 }])
 
 .run( function run () {

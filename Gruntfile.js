@@ -106,6 +106,16 @@ module.exports = function ( grunt ) {
           }
        ]
       },
+      compile_app_assets: {
+        files: [
+          {
+            src: [ '**' ],
+            dest: '<%= bc.compile_dir %>/assets/',
+            cwd: 'src/assets',
+            expand: true
+          }
+       ]
+      },
       vendor_assets: {
         files: [
           {
@@ -473,7 +483,7 @@ module.exports = function ( grunt ) {
         files: [
           '<%= bc.app_files.js %>'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build' ]
+        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build', 'compile-tasks' ]
       },
 
       /**
@@ -484,7 +494,7 @@ module.exports = function ( grunt ) {
         files: [
           'src/assets/**/*'
         ],
-        tasks: [ 'copy:build_assets' ]
+        tasks: [ 'copy:build_assets', 'compile-tasks' ]
       },
 
       /**
@@ -492,7 +502,7 @@ module.exports = function ( grunt ) {
        */
       html: {
         files: [ '<%= bc.app_files.html %>' ],
-        tasks: [ 'index:build' ]
+        tasks: [ 'index:build', 'compile-tasks' ]
       },
 
       /**
@@ -503,14 +513,14 @@ module.exports = function ( grunt ) {
           '<%= bc.app_files.atpl %>',
           '<%= bc.app_files.ctpl %>'
         ],
-        tasks: [ 'html2js' ]
+        tasks: [ 'html2js', 'compile-tasks' ]
       },
 
       /**
        * When the CSS files change, we need to compile and minify them.
        */
       less: {
-        files: [ 'src/**/*.less' ],
+        files: [ 'src/**/*.less', 'compile-tasks' ],
         tasks: [ 'less' ]
       },
 
@@ -575,8 +585,11 @@ module.exports = function ( grunt ) {
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code to release directory.
    */
+  grunt.registerTask( 'compile-tasks', [
+    'clean:compile', 'copy:compile_app_assets', 'less:compile', 'concat:compile_js', 'uglify:compile', 'index:compile'
+  ]);  
   grunt.registerTask( 'compile', [
-    'build', 'clean:compile', 'less:compile', 'concat:compile_js', 'uglify:compile', 'index:compile'
+    'build', 'compile-tasks'
   ]);
 
   grunt.registerTask( 'release', [
