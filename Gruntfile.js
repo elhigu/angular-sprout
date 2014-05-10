@@ -586,14 +586,24 @@ module.exports = function ( grunt ) {
    * minifying your code to release directory.
    */
   grunt.registerTask( 'compile-tasks', [
-    'clean:compile', 'copy:compile_app_assets', 'less:compile', 'concat:compile_js', 'uglify:compile', 'index:compile'
+    'clean:compile', 
+    'copy:compile_app_assets', 
+    'less:compile', 
+    'concat:compile_js', 
+    'uglify:compile', 
+    'index:compile',
+    // 'release-tasks', 'copy:deploy' // For continuous deployment when watch sees a change
   ]);  
   grunt.registerTask( 'compile', [
     'build', 'compile-tasks'
   ]);
 
+
+  grunt.registerTask( 'release-tasks', [
+    'clean:release', 'copy:create_release', 'index:release_build', 'index:release_compile'
+  ]);
   grunt.registerTask( 'release', [
-    'compile', 'clean:release', 'copy:create_release', 'index:release_build', 'index:release_compile'
+    'compile', 'release-tasks'
   ]);
 
   /**
