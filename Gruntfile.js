@@ -565,7 +565,10 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 'build', 'express', 'delta' ] );
+  grunt.registerTask( 'watch', [ 
+    'compile',                    // build & compile 
+    'karma:unit',                 // start karma test runner to port 9018
+    'express', 'delta' ] );       // start serving built app
 
   /**
    * The default task is to build and compile.
