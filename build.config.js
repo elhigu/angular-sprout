@@ -53,7 +53,9 @@ module.exports = {
      */
     test_files: {
       js: [
-        'vendor/angular-mocks/angular-mocks.js'
+        'vendor/angular-mocks/angular-mocks.js',
+        'vendor/jquery/dist/jquery.min.js',
+        'karma/test-tools.js'
       ]
     },
 
