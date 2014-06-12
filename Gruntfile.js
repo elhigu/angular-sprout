@@ -11,7 +11,7 @@ module.exports = function ( grunt ) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
-  grunt.loadNpmTasks('grunt-karma'); 
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-html2js');
   grunt.loadNpmTasks('grunt-express');
   grunt.loadNpmTasks('grunt-angular-translate');
@@ -25,9 +25,9 @@ module.exports = function ( grunt ) {
    */
   var userConfig = require( './build.config.js' );
 
-  /** 
+  /**
    * Read profile variables from separate file
-   * 
+   *
    * 1. if profile switch is given, copy profile to selected-profile.js
    * 2. if selected profile does not exist tell user to select one
    * 3. load profile with require
@@ -443,12 +443,12 @@ module.exports = function ( grunt ) {
      *
      * But we don't need the same thing to happen for all the files.
      *
-     * TODO: different watches... 
-     *       watch build, 
-     *       watch compile, 
-     *       watch release, 
+     * TODO: different watches...
+     *       watch build,
+     *       watch compile,
+     *       watch release,
      *       watch deploy
-     * 
+     *
      * TODO: Fix if index.html / build.config.js / selected-profile.js /
      *       profile is changed it should be recognized.
      */
@@ -565,8 +565,8 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [ 
-    'compile',                    // build & compile 
+  grunt.registerTask( 'watch', [
+    'compile',                    // build & compile
     'karma:unit',                 // start karma test runner to port 9018
     'express', 'delta' ] );       // start serving built app
 
@@ -579,9 +579,19 @@ module.exports = function ( grunt ) {
    * The `build` task gets your app ready to run for development and testing.
    */
   grunt.registerTask( 'build', [
-    'clean:build', 'html2js', 'jshint', 'less:build', 'copy:build_app_assets', 'copy:vendor_assets', 
-    'copy:build_vendor_directories', 'copy:compile_vendor_directories',
-    'copy:build_appjs', 'copy:build_vendorjs', 'index:build', 'karmaconfig', 'karma:continuous'
+    'clean:build',
+    'html2js',
+    'jshint',
+    'less:build',
+    'copy:build_app_assets',
+    'copy:vendor_assets',
+    'copy:build_vendor_directories',
+    'copy:compile_vendor_directories',
+    'copy:build_appjs',
+    'copy:build_vendorjs',
+    'index:build',
+    'karmaconfig',
+    'karma:continuous'
   ]);
 
   /**
@@ -589,14 +599,16 @@ module.exports = function ( grunt ) {
    * minifying your code to release directory.
    */
   grunt.registerTask( 'compile-tasks', [
-    'clean:compile', 
-    'copy:compile_app_assets', 
-    'less:compile', 
-    'concat:compile_js', 
-    'uglify:compile', 
+    'clean:compile',
+    'copy:compile_app_assets',
+    'copy:vendor_assets',
+    'copy:compile_vendor_directories',
+    'less:compile',
+    'concat:compile_js',
+    'uglify:compile',
     'index:compile',
     // 'release-tasks', 'copy:deploy' // For continuous deployment when watch sees a change
-  ]);  
+  ]);
   grunt.registerTask( 'compile', [
     'build', 'compile-tasks'
   ]);
@@ -611,7 +623,7 @@ module.exports = function ( grunt ) {
 
   /**
    * Deploy to final production / staging server.
-   * 
+   *
    * 1. Clean build.
    * 2. Copy application to release directory and fix configuration.
    * 3. Compile / minify release.
