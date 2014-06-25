@@ -13,7 +13,8 @@
  * specified, as shown below.
  */
 angular.module( 'app.home', [
-  'ui.router.state'
+  'ui.router.state',
+  'ui.bootstrap.fixes'
 ])
 
 /**

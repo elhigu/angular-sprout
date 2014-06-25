@@ -1,0 +1,19 @@
+<div class="betterPicker">
+  <!-- TODO: render picker only if visible -->
+  <!-- add arguments for alignment, visibility, buttons etc. -->
+  <datepicker ng-model="ngModel" 
+    show-weeks="true"
+    starting-day="1">
+  </datepicker>
+  <div class="buttonRow">
+    <button type="button" 
+      class="btn btn-sm btn-primary pull-left" 
+      ng-click="datePickerToday($event)">Today</button>
+    <button type="button" 
+      class="btn btn-sm btn-danger pull-right" 
+      ng-click="datePickerClear($event)">Clear</button>
+    <button type="button" 
+      class="btn btn-sm btn-success pull-right" 
+      ng-click="datePickerClose($event)">Close</button>
+  </div>
+</div>
