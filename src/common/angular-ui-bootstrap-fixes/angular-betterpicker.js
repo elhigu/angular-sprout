@@ -9,55 +9,96 @@ angular.module( 'ui.bootstrap.fixes', [
     templateUrl : 'angular-ui-bootstrap-fixes/tpl/betterpicker.tpl.html',
     restrict : 'E',
     scope : {
-      ngModel : '='
-    }
-/*  ,
+      ngModel : '=',
+      state : '='
+    },
+
     link: function(scope, element, attrs) {
+      var defaults = {
+        inputField : {
+          dateFormat: 'YYYY-M-D',
+          visible: true,
+          placeholder: 'Pick a date...',
+          valid: true
+        },
+        align: 'left',
+        todayButton: true,
+        closeButton: true,
+        clearButton: true,
+        isOpen: false
+      };
 
-      //
-      // Scope variables
-      //
+      // extend options with default values and then
+      // copy data to original reference to allow
+      // dynamic control of datepicker properties.
+      _.merge(defaults, scope.state);
+      _.merge(scope.state, defaults);
 
-      scope.internalModel = angular.copy(scope.model);
-      scope.internalModel.type = scope.model.type || 'all';
+      // ng-if creates child scope, to prevent isolation
+      // provide variables of this scope through rootVars
+      scope.rootVars = {};
+      scope.rootVars.datePickerDate = new Date();
+      scope.rootVars.formattedDate = null;
 
       //
       // Scope methods
       //
 
-      scope.stopPropagation = function (event) {
-        event.stopPropagation();
+      scope.openPicker = function () {
+        scope.state.isOpen = true;
       };
 
       // should be refactored to separate directive
       // if needed elsewhere
-      scope.datePickerToday = function (evt) {
+      scope.todayClick = function () {
+        scope.ngModel = new Date();
       };
-      scope.datePickerClear = function (evt) {
+      scope.clearClick = function () {
+        scope.ngModel = null;
+        scope.state.isOpen = false;
       };
-      scope.datePickerClose = function (evt) {
+      scope.closeClick = function () {
+        scope.state.isOpen = false;
       };
 
-      //
+      // 
       // Watches
-      //
+      // 
 
-      scope.$watch('internalModel', function () {
-        if (scope.internalModel.type === 'all') {
-          scope.model.type = scope.internalModel.type;
-          scope.model.start = null;
-          scope.model.end = null;
-        } else if (scope.internalModel.type === '24h') {
-          scope.model.type = scope.internalModel.type;
-          scope.model.start = new Date();
-          scope.model.end = scope.model.start;
-        } else if (scope.internalModel.type === 'range' && scope.internalModel.start && scope.internalModel.end) {
-          scope.model.type = scope.internalModel.type;
-          scope.model.start = new Date(scope.internalModel.start);
-          scope.model.end = new Date(scope.internalModel.end);
+      // Update cycle: ngModel -> datePicker -> formattedDate -> ngMode
+      //               cycle will end when all has the same date
+      // if ngModel is set to null, formattedDate is set to null too
+
+      // if ngModel is changed update datePickerDate
+      scope.$watch('ngModel', function (newVal, oldVal) {
+        //console.log("ngModel change:", newVal, oldVal);
+        if (oldVal === newVal) { return; }
+        if (!newVal) {
+          scope.rootVars.formattedDate = null;
+          return;
         }
-      }, true);
+        scope.rootVars.datePickerDate = newVal;
+      });
+
+      // if datePickerDate is changed update formattedDate
+      scope.$watch('rootVars.datePickerDate', function (newVal, oldVal) {
+        //console.log("datePickerDate change:", newVal, oldVal);
+        if (oldVal === newVal) { return; }
+        scope.rootVars.formattedDate = moment(newVal).format(
+          scope.state.inputField.dateFormat);
+        scope.state.inputField.valid = true;
+      });
+
+      // if formattedDate is changed update ngModel
+      scope.$watch('rootVars.formattedDate', function (newVal, oldVal) {
+        //console.log("formattedDate change:", newVal, oldVal);
+        if (newVal === oldVal) { return; }
+        var parsed = moment(newVal, scope.state.inputField.dateFormat, true);
+        scope.state.inputField.valid = parsed.isValid();
+        if (scope.state.inputField.valid) {
+          scope.ngModel = parsed.toDate();
+        }
+      });
     }
-*/
   };
 });

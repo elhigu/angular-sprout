@@ -42,6 +42,18 @@ angular.module( 'app.home', [
  * And of course we define a controller for our route.
  */
 .controller( 'HomeCtrl', ['$scope', function HomeController( $scope ) {
+  $scope.pickerState = { isOpen: true };
+
+  $scope.toggleIsOpen = function () {
+    $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
+  };
+  $scope.toggleAlignment = function () {
+    $scope.pickerState.align = $scope.pickerState.align === 'left' ? 'right' : 'left';
+  };
+
+  $scope.$watch('pickerState', function () {
+    $scope.pickerString = JSON.stringify($scope.pickerState, null, 2);    
+  }, true);
 }])
 
 ;

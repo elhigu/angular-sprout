@@ -1,19 +1,29 @@
-<div class="betterPicker">
-  <!-- TODO: render picker only if visible -->
-  <!-- add arguments for alignment, visibility, buttons etc. -->
-  <datepicker ng-model="ngModel" 
+<input type="text"
+  ng-if="state.inputField.visible"
+  class="form-control"
+  ng-model="rootVars.formattedDate"
+  placeholder="{{state.inputField.placeholder}}"
+  ng-click="openPicker()">
+
+<div class="well well-sm btn-group"
+	ng-class="{'right' : 'pull-right', 'left' : 'pull-left'}[state.align]"
+	ng-if="state.isOpen">
+  <datepicker ng-model="rootVars.datePickerDate" 
     show-weeks="true"
     starting-day="1">
   </datepicker>
   <div class="buttonRow">
     <button type="button" 
+	  ng-if="state.todayButton"
       class="btn btn-sm btn-primary pull-left" 
-      ng-click="datePickerToday($event)">Today</button>
+      ng-click="todayClick()">Today</button>
     <button type="button" 
+	  ng-if="state.clearButton"
       class="btn btn-sm btn-danger pull-right" 
-      ng-click="datePickerClear($event)">Clear</button>
+      ng-click="clearClick()">Clear</button>
     <button type="button" 
+	  ng-if="state.closeButton"
       class="btn btn-sm btn-success pull-right" 
-      ng-click="datePickerClose($event)">Close</button>
+      ng-click="closeClick()">Close</button>
   </div>
 </div>
