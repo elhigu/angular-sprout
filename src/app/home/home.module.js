@@ -44,6 +44,9 @@ angular.module( 'app.home', [
 .controller( 'HomeCtrl', ['$scope', function HomeController( $scope ) {
   $scope.pickerState = { isOpen: true };
 
+  $scope.setToday = function () {
+    $scope.selectedDate = new Date();
+  };
   $scope.toggleIsOpen = function () {
     $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
   };

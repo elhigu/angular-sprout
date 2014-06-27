@@ -3,9 +3,9 @@
   class="form-control"
   ng-model="rootVars.formattedDate"
   placeholder="{{state.inputField.placeholder}}"
-  ng-click="openPicker()">
+  ng-focus="openPicker()">
 
-<div class="well well-sm btn-group"
+<div class="pickerCalendar well well-sm btn-group"
 	ng-class="{'right' : 'pull-right', 'left' : 'pull-left'}[state.align]"
 	ng-if="state.isOpen">
   <datepicker ng-model="rootVars.datePickerDate" 
