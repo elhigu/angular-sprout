@@ -52,8 +52,12 @@ describe( 'Better datepicker directive', function() {
   it( 'should not allow changing state options dynamically',function() {
     expect( true ).toBeTruthy();
   });
-  
+
   it( 'should read initial date and state variables correctly',function() {
+    expect( true ).toBeTruthy();
+  });
+
+  it( 'should read placeholder from element attributes',function() {
     expect( true ).toBeTruthy();
   });
 

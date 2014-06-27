@@ -28,7 +28,13 @@ angular.module( 'ui.bootstrap.fixes', [
         isOpen: false
       };
 
-      defaults.inputField.placeholder = "e.g. " + moment().format(defaults.inputField.dateFormat);
+      // element attributes affect to "default" values
+      // can be overridden by scope.state
+      if (attrs.placeholder) {
+        defaults.inputField.placeholder = attrs.placeholder;
+      } else {
+        defaults.inputField.placeholder = "e.g. " + moment().format(defaults.inputField.dateFormat);
+      }
 
       // create state if not given
       if (!scope.state) {
@@ -90,8 +96,8 @@ angular.module( 'ui.bootstrap.fixes', [
 
       // if ngModel is changed update datePickerDate
       scope.$watch('ngModel', function (newVal, oldVal) {
-        console.log("ngModel", newVal, oldVal);
         if (_.isUndefined(newVal)) { return; }
+        // console.log("ngModel", newVal, oldVal);
         if (firstChange === this) {
           firstChange = null;
           return; 
@@ -108,8 +114,8 @@ angular.module( 'ui.bootstrap.fixes', [
 
       // if datePickerDate is changed update formattedDate
       scope.$watch('rootVars.datePickerDate', function (newVal, oldVal) {
-        console.log("datePickerDate", newVal, oldVal);
         if (_.isUndefined(newVal)) { return; }
+        // console.log("datePickerDate", newVal, oldVal);
         if (firstChange === this) {
           firstChange = null;
           return; 
@@ -136,7 +142,7 @@ angular.module( 'ui.bootstrap.fixes', [
       // if formattedDate is changed update ngModel
       scope.$watch('rootVars.formattedDate', function (newVal, oldVal) {
         if (_.isUndefined(newVal)) { return; }
-        console.log("formattedDate", newVal, oldVal);
+        // console.log("formattedDate", newVal, oldVal);
         if (firstChange === this) {
           firstChange = null;
           return; 
