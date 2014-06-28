@@ -88,12 +88,19 @@ module.exports = {
         'vendor/lodash/dist/lodash.js',
         'vendor/moment/moment.js'
       ],
+      // These css files will be copied without any concatenation
+      // and included before app.css which was compiled from .less files. 
+      //
+      // If you like to get compiled .css to app add includes to main.less 
+      // to appropriate places.
       css: [
+        'vendor/fontawesome/css/font-awesome.min.css'
       ],
       assets: [
       ],
       dirs: [
-        { src_path: 'vendor/bootstrap/fonts', dst_path: 'fonts' }
+        { src_path: 'vendor/bootstrap/fonts', dst_path: 'fonts' },
+        { src_path: 'vendor/fontawesome/fonts', dst_path: 'vendor/fontawesome/fonts' }
       ]
     }
   }

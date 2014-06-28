@@ -178,6 +178,26 @@ module.exports = function ( grunt ) {
           }
         ]
       },
+      build_vendorcss: {
+        files: [
+          {
+            cwd: '.',
+            src: [ '<%= bc.vendor_files.css %>' ],
+            dest: '<%= bc.build_dir %>/',
+            expand: true
+          }
+        ]
+      },
+      compile_vendorcss: {
+        files: [
+          {
+            cwd: '.',
+            src: [ '<%= bc.vendor_files.css %>' ],
+            dest: '<%= bc.compile_dir %>/',
+            expand: true
+          }
+        ]
+      },
       create_release: {
         files: [
           {
@@ -589,6 +609,7 @@ module.exports = function ( grunt ) {
     'copy:compile_vendor_directories',
     'copy:build_appjs',
     'copy:build_vendorjs',
+    'copy:build_vendorcss',
     'index:build',
     'karmaconfig',
     'karma:continuous'
@@ -602,6 +623,7 @@ module.exports = function ( grunt ) {
     'clean:compile',
     'copy:compile_app_assets',
     'copy:vendor_assets',
+    'copy:compile_vendorcss',
     'copy:compile_vendor_directories',
     'less:compile',
     'concat:compile_js',
@@ -655,10 +677,11 @@ module.exports = function ( grunt ) {
    * the list into variables for the template to use and then runs the
    * compilation.
    *
-   * NOTE: Fix this... this is pretty ugly way to do it and error prone.
    */
   grunt.registerMultiTask( 'index', 'Process index.html template', function () {
 
+    // NOTE: Fix this... this is pretty ugly way to do it and error prone.
+    //       and actually fails on windows
     function escapeRegExp(str) {
       return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
     }
@@ -676,8 +699,7 @@ module.exports = function ( grunt ) {
       return file.replace( dirRE, '' );
     });
 
-    // jswtf # 32583: how to do push front with javascript.
-    cssFiles.unshift(grunt.config('css_path'));
+    cssFiles.push(grunt.config('css_path'));
     selectedBackend = this.data.selectedBackend;
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
       process: function ( contents, path ) {
