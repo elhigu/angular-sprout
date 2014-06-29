@@ -2,9 +2,10 @@
 describe( 'Better datepicker directive', function() {
 
   beforeEach( module( 'ui.bootstrap.fixes' ) );
+  beforeEach( module('angular-ui-bootstrap-fixes/tpl/betterpicker.tpl.html') );
+  beforeEach( module( 'pascalprecht.translate' ) );
 
   beforeEach(function () {
-    module('pascalprecht.translate');
     module(function ($provide) {
       $provide.decorator('$translate', function($delegate) {
         var mock_translate = function (key) {
@@ -25,12 +26,34 @@ describe( 'Better datepicker directive', function() {
     });
   });
 
-  it( 'should render ui.bootstrap datepicker',function() {
-    expect( true ).toBeTruthy();
+  var $rootScope, jqEl;
+
+  beforeEach(
+    inject(function($injector, $compile) {
+      $rootScope = $injector.get('$rootScope');
+
+      $rootScope.pickerState = {};
+      var directiveHtml = angular.element(
+        '<betterpicker ng-model="selectedDate" state="pickerState"></betterpicker>'
+      );
+      $compile(directiveHtml)($rootScope);
+      $rootScope.$digest();
+      jqEl = $(directiveHtml);
+
+    })
+  );
+
+  it( 'by default should render only input field',function() {
+    expect( jqEl.find('input[type="text"]').length ).toBe(1);
+    expect( jqEl.find('.pickerCalendar').length ).toBe(0);
+    expect( jqEl.find('table').length ).toBe(0);
   });
 
-  it( 'should open picker if input is focused',function() {
-    expect( true ).toBeTruthy();
+  it( 'should open picker calendar if input is focused',function() {
+    var inputEl = jqEl.find('input');
+    testTools.fireEvent(inputEl, "focus");
+    $rootScope.$digest();
+    expect( jqEl.find('.pickerCalendar').length ).toBe(1);
   });
 
   it( 'should close picker if date is selected',function() {
