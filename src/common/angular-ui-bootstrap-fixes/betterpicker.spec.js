@@ -26,20 +26,23 @@ describe( 'Better datepicker directive', function() {
     });
   });
 
-  var $rootScope, jqEl;
+  var $compile, $rootScope, jqEl;
+
+  var initDirective = function (template) {
+    var directiveHtml = angular.element(template);
+    $compile(directiveHtml)($rootScope);
+    $rootScope.$digest();
+    jqEl = $(directiveHtml);
+  };
 
   beforeEach(
-    inject(function($injector, $compile) {
+    inject(function($injector) {
       $rootScope = $injector.get('$rootScope');
+      $compile = $injector.get('$compile');
 
       $rootScope.pickerState = {};
-      var directiveHtml = angular.element(
-        '<betterpicker ng-model="selectedDate" state="pickerState"></betterpicker>'
-      );
-      $compile(directiveHtml)($rootScope);
-      $rootScope.$digest();
-      jqEl = $(directiveHtml);
-
+      var defaultTemplate = '<betterpicker ng-model="selectedDate" state="pickerState"></betterpicker>';
+      initDirective(defaultTemplate);
     })
   );
 
@@ -49,16 +52,25 @@ describe( 'Better datepicker directive', function() {
     expect( jqEl.find('table').length ).toBe(0);
   });
 
-  it( 'should open picker calendar if input is focused',function() {
-    var inputEl = jqEl.find('input');
-    testTools.fireEvent(inputEl, "focus");
-    $rootScope.$digest();
-    expect( jqEl.find('.pickerCalendar').length ).toBe(1);
+  describe( 'clicking input field', function () {
+    beforeEach(function () {
+      var inputEl = jqEl.find('input');
+      testTools.fireEvent(inputEl, "focus");
+      $rootScope.$digest();      
+    });
+    
+    it( 'should open picker calendar if input is focused',function() {
+      expect( jqEl.find('.pickerCalendar').length ).toBe(1);
+    });
+  
+    it( 'should close picker if date is selected',function() {
+      
+
+    });
   });
 
-  it( 'should close picker if date is selected',function() {
-    expect( true ).toBeTruthy();
-  });
+
+
 
   it( 'should not close picker "today" button is pressed',function() {
     expect( true ).toBeTruthy();
