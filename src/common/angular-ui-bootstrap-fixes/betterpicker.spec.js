@@ -29,10 +29,12 @@ describe( 'Better datepicker directive', function() {
   var $compile, $rootScope, jqEl;
 
   var initDirective = function (template) {
-    var directiveHtml = angular.element(template);
-    $compile(directiveHtml)($rootScope);
-    $rootScope.$digest();
-    jqEl = $(directiveHtml);
+    var directiveEl = angular.element(template);
+    $rootScope.$apply(function () {
+      $compile(directiveEl)($rootScope);
+    });
+    jqEl = $(directiveEl);
+    $('body').html(jqEl);
   };
 
   beforeEach(
@@ -144,17 +146,39 @@ describe( 'Better datepicker directive', function() {
     });
   });
 
-  it( 'should read initial date and state variables correctly',function() {
-    expect( true ).toBeTruthy();
+  it( 'should read initial date correctly, to picker and formatted date',function() {
+    $rootScope.pickerState = {
+      inputField : {
+        dateFormat : 'YYYYMMDD'
+      },
+      isOpen : true
+    };
+    var testDate = moment().subtract('years', 1).toDate();
+    $rootScope.pickerDate = moment().subtract('years', 1).toDate();
+    initDirective('<div><betterpicker ng-model="pickerDate" state="pickerState"></betterpicker></div>');
+    expect( jqEl.find('input').val() ).toBe(moment(testDate).format('YYYYMMDD'));
+    
+    var pickerScope = angular.element(jqEl.find('betterpicker')).scope();
+    expect( moment(pickerScope.pickerDate).format('YYYYMMDD') )
+    .toEqual(moment(testDate).format('YYYYMMDD'));
   });
 
-  it( 'should not allow changing state options dynamically',function() {
-    expect( true ).toBeTruthy();
+  it( 'toggling state.isOpen from outer scope shows/hide picker',function() {
+    $rootScope.pickerState.isOpen = true;
+    $rootScope.$digest();
+    expect( jqEl.find('.pickerCalendar').length ).toBe(1);
+
+    $rootScope.pickerState.isOpen = false;
+    $rootScope.$digest();
+    expect( jqEl.find('.pickerCalendar').length ).toBe(0);
   });
 
-  it( 'should read placeholder from element attributes',function() {
-    expect( true ).toBeTruthy();
+  it( 'placeholder text is read from placeholder attribute',function() {
   });
+
+  it( 'placeholder attribute is overridden by state.inputField.placeholder',function() {
+  });
+
 
 });
 
