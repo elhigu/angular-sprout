@@ -174,9 +174,16 @@ describe( 'Better datepicker directive', function() {
   });
 
   it( 'placeholder text is read from placeholder attribute',function() {
+    $rootScope.emptyState = {};
+    initDirective('<div><betterpicker placeholder="testholder" state="emptyState"></betterpicker></div>');
+    expect( jqEl.find('input').attr('placeholder') ).toBe("testholder");
   });
 
   it( 'placeholder attribute is overridden by state.inputField.placeholder',function() {
+    var overridePlaceholder = "test override";
+    $rootScope.placeholderState = { inputField : { placeholder : overridePlaceholder } };
+    initDirective('<div><betterpicker placeholder="testholder" state="placeholderState"></betterpicker></div>');
+    expect( jqEl.find('input').attr('placeholder') ).toBe(overridePlaceholder);
   });
 
 
