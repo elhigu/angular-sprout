@@ -34,9 +34,7 @@
     </footer>
 
     <script>
-      window.appConfiguration = {
-        backend: '<%= backend %>'
-      };
+      window.appConfiguration = <%= appConfiguration %>;
     </script>
     <!-- compiled JavaScript --><% scripts.forEach( function ( file ) { %>
     <script type="text/javascript" src="<%= file %>"></script><% }); %>

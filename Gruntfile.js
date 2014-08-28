@@ -389,7 +389,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.app.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedBackend: '<%= dev.backend %>'
+        selectedAppConfiguration: '<%= dev.appConfiguration %>'
       },
 
       compile: {
@@ -398,7 +398,7 @@ module.exports = function ( grunt ) {
           '<%= concat.compile_js.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedBackend:  '<%= dev.backend %>'
+        selectedAppConfiguration:  '<%= dev.appConfiguration %>'
       },
 
       release_build: {
@@ -410,7 +410,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.app.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedBackend: '<%= bc.deploy_backend %>'
+        selectedAppConfiguration: '<%= bc.deploy_appConfiguration %>'
       },
 
       release_compile: {
@@ -419,7 +419,7 @@ module.exports = function ( grunt ) {
           '<%= concat.compile_js.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedBackend: '<%= bc.deploy_backend %>'
+        selectedAppConfiguration: '<%= bc.deploy_appConfiguration %>'
       }
 
     },
@@ -700,7 +700,7 @@ module.exports = function ( grunt ) {
     });
 
     cssFiles.push(grunt.config('css_path'));
-    selectedBackend = this.data.selectedBackend;
+    selectedAppConfiguration = this.data.selectedAppConfiguration;
     grunt.file.copy('src/index.html', this.data.dir + '/index.html', {
       process: function ( contents, path ) {
         return grunt.template.process( contents, {
@@ -708,7 +708,7 @@ module.exports = function ( grunt ) {
             scripts: jsFiles,
             styles: cssFiles,
             version: grunt.config( 'pkg.version' ),
-            backend: selectedBackend
+            appConfiguration: JSON.stringify(selectedAppConfiguration)
           }
         });
       }

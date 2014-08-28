@@ -22,11 +22,13 @@ module.exports = {
     deploy_dir: '../somewhereelse/src/main/webapp/app',
 
     /**
-     * Backend uri where to send requests for *deployed* application
+     * Backend uri etc. configuration for *deployed* application
      * if you need different backend location during development,
      * add new profile for you to profiles/dev-something.js
      */
-    deploy_backend: '/resource',
+    deploy_appConfiguration : {
+      backend: '/resource',
+    },
 
     /**
      * This is a collection of file patterns that refer to our app code (the

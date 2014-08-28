@@ -4,12 +4,14 @@
  *
  * Deployment backend is configured in build.config.js it should not be changed.
  * 
- * NOTE: IF YOU CHANGE THIS FILE, CHANGES ARE NOT RECIGNIZED UNTIL YOU RUN
+ * NOTE: IF YOU CHANGE THIS FILE, CHANGES ARE NOT RECOGNIZED UNTIL YOU RUN
  *       grunt --profile=dev-mikael
  */
 
 module.exports = {
 	dev : {
-		backend : 'http://localhost:9090/resource'
+		appConfiguration : {
+			backend : 'http://localhost:9090/resource'
+		}
 	}
 };
