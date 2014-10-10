@@ -19,7 +19,22 @@ angular.module( 'appMain', [
     suffix: '.json'
   });
 
-  $translateProvider.preferredLanguage('fi');
+  // fix for angular-translate's getLocale to get preferred language 
+  // from first language in preferred langauge list on Chrome instead
+  // of nav.language
+  $translateProvider.determinePreferredLanguage(function () {
+    var getLocale = function () {
+      var nav = window.navigator;
+      return ((nav.languages && nav.languages[0]) ||
+        nav.language ||
+        nav.browserLanguage ||
+        nav.systemLanguage ||
+        nav.userLanguage || '').split('-').join('_');
+    };
+    return getLocale().split('_')[0];
+  });
+
+  $translateProvider.fallbackLanguage('en');
   // $translateProvider.useLocalStorage();
   // $translateProvider.useMissingTranslationHandlerLog();
 }])
