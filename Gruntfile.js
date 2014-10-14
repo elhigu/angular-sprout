@@ -636,7 +636,14 @@ module.exports = function ( grunt ) {
     'copy:build_appjs',
     'copy:build_vendorjs',
     'copy:build_vendorcss',
-    'index:build',
+    'index:build'
+  ]);
+
+  /**
+   * The `build` task gets your app ready to run for development and testing.
+   */
+  grunt.registerTask( 'test', [
+    'build',
     'karmaconfig',
     'karma:continuous'
   ]);
