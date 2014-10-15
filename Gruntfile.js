@@ -621,11 +621,19 @@ module.exports = function ( grunt ) {
     grunt.log.writeln(usageInfo.join('\n'));
   });
 
+  grunt.registerTask( 'test', 'Clean build and run tests.', [
+    'clean-build', 'run-tests' ]);
+
+  grunt.registerTask( 'run-tests', 'Run tests without re-building.', [
+    'karmaconfig', 'karma:continuous' ]);
+
+  grunt.registerTask( 'build', 'Clean old build files and build.',
+    [ 'clean:build', 'build-tasks' ]);
+
   /**
    * The `build` task gets your app ready to run for development and testing.
    */
-  grunt.registerTask( 'build', [
-    'clean:build',
+  grunt.registerTask( 'build-tasks', [
     'html2js',
     'jshint',
     'less:build',
@@ -639,35 +647,31 @@ module.exports = function ( grunt ) {
     'index:build'
   ]);
 
-  /**
-   * The `build` task gets your app ready to run for development and testing.
-   */
-  grunt.registerTask( 'test', [
-    'build',
-    'karmaconfig',
-    'karma:continuous'
+  grunt.registerTask( 'compile', [
+    'build', 'clean:compile', 'compile-tasks'
+  ]);
+
+  grunt.registerTask( 'compile-fast', [
+    'build', 'clean:compile', 'compile-tasks-fast'
+  ]);
+
+  grunt.registerTask( 'compile-tasks', [
+    'compile-tasks-fast', 'uglify:compile'
   ]);
 
   /**
    * The `compile` task gets your app ready for deployment by concatenating and
    * minifying your code to release directory.
    */
-  grunt.registerTask( 'compile-tasks', [
-    'clean:compile',
+  grunt.registerTask( 'compile-tasks-fast', [
     'copy:compile_app_assets',
     'copy:vendor_assets',
     'copy:compile_vendorcss',
     'copy:compile_vendor_directories',
     'less:compile',
     'concat:compile_js',
-    'uglify:compile',
-    'index:compile',
-    // 'release-tasks', 'copy:deploy' // For continuous deployment when watch sees a change
+    'index:compile'
   ]);
-  grunt.registerTask( 'compile', [
-    'build', 'compile-tasks'
-  ]);
-
 
   grunt.registerTask( 'release-tasks', [
     'clean:release', 'copy:create_release', 'index:release_build', 'index:release_compile'
