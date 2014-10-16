@@ -35,6 +35,7 @@ module.exports = function ( grunt ) {
     "                             ".yellow + "Available configurations are listed in build.config.js",
     "grunt release-fast:<config>  ".yellow + "Like release, but does not clean build and does not uglify",
     "                             ".yellow + "produced result javascript.",
+    "grunt deploy:<config>        ".yellow + "Deploys release code to final destination",
     "grunt test                   ".yellow + "Runs the test suite.",
     "grunt watch                  ".yellow + "Watch changes in all files and rebuild required parts.",
     "grunt watch-test             ".yellow + "Watch when build tree is stabilized and run tests after",

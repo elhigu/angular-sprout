@@ -29,10 +29,22 @@ module.exports = {
      * production, staging, qa, ci etc.
      */
     releaseConfigurations: {
-      'default' : {
+      default : {
         type : 'localdir',
         path : '../somewhereelse/src/main/webapp/app',
-        backend: '/resource'
+        appConfig : {
+          backend: '/resource'
+        }
+      },
+
+      // TODO: This deployment type is not yet implemented
+      production : {
+        type : 'rackspace',
+        path : 'somerackspacething',
+        access : 'apitoken',
+        appConfig : {
+          backend : 'https://backend.example.org/api/v1'
+        }
       }
     },
 
