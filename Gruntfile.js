@@ -30,15 +30,16 @@ module.exports = function ( grunt ) {
     "grunt build                  ".yellow + "Build debug version of application with selected profile.",
     "grunt compile                ".yellow + "Creates concat / uglified version of code ",
     "                             ".yellow + "under 'compiled/' subpath.",
+    "grunt compile-fast           ".yellow + "Like compile, but does not uglify.",
     "grunt release:<config>       ".yellow + "Complete clean build and generation of release files.",
     "                             ".yellow + "Available configurations are listed in build.config.js",
-    "grunt fast-release:<config>  ".yellow + "Like release, but does not clean build and does not uglify",
+    "grunt release-fast:<config>  ".yellow + "Like release, but does not clean build and does not uglify",
     "                             ".yellow + "produced result javascript.",
     "grunt test                   ".yellow + "Runs the test suite.",
     "grunt watch                  ".yellow + "Watch changes in all files and rebuild required parts.",
     "grunt watch-test             ".yellow + "Watch when build tree is stabilized and run tests after",
     "                             ".yellow + "few seconds.",
-    "grunt watch-release:<config> ".yellow + "Watch for changes + trigger fast-release.",
+    "grunt watch-release:<config> ".yellow + "Watch for changes + trigger release-fast.",
     "======================================= GruntTODO =========================================".cyan,
     "* Recognize that if selected profile changes, changes should be emitted to ".green,
     "  selected-profile.js (maybe selected profile should just require real profile.)".green,
@@ -674,10 +675,17 @@ module.exports = function ( grunt ) {
   ]);
 
   grunt.registerTask( 'release-tasks', [
-    'clean:release', 'copy:create_release', 'index:release_build', 'index:release_compile'
+    'copy:create_release', 'index:release_build', 'index:release_compile'
   ]);
+
+  // TODO: parse
   grunt.registerTask( 'release', [
-    'compile', 'release-tasks'
+    'compile', 'clean:release', 'release-tasks'
+  ]);
+
+  // TODO: parse
+  grunt.registerTask( 'release-fast', [
+    'compile-fast', 'clean:release', 'release-tasks'
   ]);
 
   /**
@@ -720,7 +728,9 @@ module.exports = function ( grunt ) {
     // NOTE: Fix this... this is pretty ugly way to do it and error prone.
     //       and actually fails on windows
     function escapeRegExp(str) {
-      return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      var regexed = str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+      console.log("Orig:", str, "Regexed:", regexed);
+      return str;
     }
 
     var dirRE = new RegExp( '^('+
@@ -731,6 +741,10 @@ module.exports = function ( grunt ) {
     var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
       return file.replace( dirRE, '' );
     });
+
+    console.log("TODO: fix these conversions to be cross platform portable:");
+    console.log("JsFiles:", jsFiles);
+    console.log("FileSrc:", this.filesSrc);
 
     var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
       return file.replace( dirRE, '' );

@@ -19,15 +19,21 @@ module.exports = {
     build_dir: path.join(build_base, 'debug'),
     compile_dir: path.join(build_base, 'compiled'),
     release_dir: path.join(build_base, 'release'),
-    deploy_dir: '../somewhereelse/src/main/webapp/app',
 
     /**
      * Backend uri etc. configuration for *deployed* application
      * if you need different backend location during development,
      * add new profile for you to profiles/dev-something.js
+     *
+     * There can be multiple release configurations e.g. for
+     * production, staging, qa, ci etc.
      */
-    deploy_appConfiguration : {
-      backend: '/resource',
+    releaseConfigurations: {
+      'default' : {
+        type : 'localdir',
+        path : '../somewhereelse/src/main/webapp/app',
+        backend: '/resource'
+      }
     },
 
     /**
