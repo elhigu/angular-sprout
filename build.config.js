@@ -31,7 +31,7 @@ module.exports = {
     releaseConfigurations: {
       default : {
         type : 'localdir',
-        path : '../somewhereelse/src/main/webapp/app',
+        path : 'deployed',
         appConfig : {
           backend: '/resource'
         }
@@ -44,6 +44,16 @@ module.exports = {
         access : 'apitoken',
         appConfig : {
           backend : 'https://backend.example.org/api/v1'
+        }
+      },
+
+      // TODO: This deployment type is not yet implemented
+      staging : {
+        type : 'S3',
+        path : 'buckee',
+        access : 'apitoken',
+        appConfig : {
+          backend : 'https://qa.example.org/api/v1'
         }
       }
     },

@@ -624,7 +624,7 @@ module.exports = function ( grunt ) {
   });
 
   grunt.registerTask( 'test', 'Clean build and run tests.', [
-    'clean-build', 'run-tests' ]);
+    'build', 'run-tests' ]);
 
   grunt.registerTask( 'run-tests', 'Run tests without re-building.', [
     'karmaconfig', 'karma:continuous' ]);
@@ -726,29 +726,27 @@ module.exports = function ( grunt ) {
    */
   grunt.registerMultiTask( 'index', 'Process index.html template', function () {
 
-    // NOTE: Fix this... this is pretty ugly way to do it and error prone.
-    //       and actually fails on windows
-    function escapeRegExp(str) {
-      var regexed = str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-      console.log("Orig:", str, "Regexed:", regexed);
-      return str;
+    var buildDir = grunt.config('bc.build_dir') + "/";
+    var compileDir = grunt.config('bc.compile_dir') + "/";
+    var releaseDir = grunt.config('bc.release_dir') + "/";
+
+    var removePrefixRegex = new RegExp(
+        "^(" + buildDir + "|" + compileDir + "|" + releaseDir + ")");
+
+    function normalizePath(path) {
+      // convert path to unix / webformat and strip build/compile/release
+      // dir prefixes to get relative paths right in index.html
+      var unixPath = path.split(path.sep).join("/");
+      unixPath = unixPath.replace(removePrefixRegex, '');
+      return unixPath;
     }
 
-    var dirRE = new RegExp( '^('+
-      escapeRegExp(grunt.config('bc.build_dir'))+'|'+
-      escapeRegExp(grunt.config('bc.compile_dir'))+'|'+
-      escapeRegExp(grunt.config('bc.release_dir'))+')\/', 'g' );
-
     var jsFiles = filterForJS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+      return normalizePath(file);
     });
 
-    console.log("TODO: fix these conversions to be cross platform portable:");
-    console.log("JsFiles:", jsFiles);
-    console.log("FileSrc:", this.filesSrc);
-
     var cssFiles = filterForCSS( this.filesSrc ).map( function ( file ) {
-      return file.replace( dirRE, '' );
+      return normalizePath(file);
     });
 
     cssFiles.push(grunt.config('css_path'));
