@@ -18,6 +18,9 @@ module.exports = function ( grunt ) {
 
   var path = require('path');
 
+  var deployConfig = grunt.option('conf') || 'default';
+  console.log("Using deployment config: ", deployConfig);
+
   /**
    * Load in our build configuration file.
    *
@@ -26,22 +29,24 @@ module.exports = function ( grunt ) {
   var userConfig = require( './build.config.js' );
 
   var usageInfo = [
-    "======================================= TASKS =========================================".cyan,
-    "grunt build                  ".yellow + "Build debug version of application with selected profile.",
-    "grunt compile                ".yellow + "Creates concat / uglified version of code ",
-    "                             ".yellow + "under 'compiled/' subpath.",
-    "grunt compile-fast           ".yellow + "Like compile, but does not uglify.",
-    "grunt release:<config>       ".yellow + "Complete clean build and generation of release files.",
-    "                             ".yellow + "Available configurations are listed in build.config.js",
-    "grunt release-fast:<config>  ".yellow + "Like release, but does not clean build and does not uglify",
-    "                             ".yellow + "produced result javascript.",
-    "grunt deploy:<config>        ".yellow + "Deploys release code to final destination",
-    "grunt test                   ".yellow + "Runs the test suite.",
-    "grunt watch                  ".yellow + "Watch changes in all files and rebuild required parts.",
-    "grunt watch-test             ".yellow + "Watch when build tree is stabilized and run tests after",
-    "                             ".yellow + "few seconds.",
-    "grunt watch-release:<config> ".yellow + "Watch for changes + trigger release-fast.",
-    "======================================= GruntTODO =========================================".cyan,
+    "=======================================#### TASKS ####=========================================".cyan,
+    "grunt build                        ".yellow + "Build debug version of application with selected profile.",
+    "grunt compile                      ".yellow + "Creates concat / uglified version of code ",
+    "                                   ".yellow + "under 'compiled/' subpath.",
+    "grunt compile-fast                 ".yellow + "Like compile, but does not uglify.",
+    "grunt test                         ".yellow + "Runs the test suite.",
+    "grunt watch                        ".yellow + "Watch changes in all files and rebuild required parts.",
+    "grunt watch-test                   ".yellow + "Watch when build tree is stabilized and run tests after",
+    "                                   ".yellow + "few seconds.",
+    "grunt --conf=<config> release      ".yellow + "Complete clean build and generation of release files.",
+    "                                   ".yellow + "Available configurations are listed in build.config.js",
+    "grunt --conf=<config> release-fast ".yellow + "Like release, but does not clean build and does not uglify",
+    "                                   ".yellow + "produced result javascript.",
+    "grunt --conf=<config> deploy       ".yellow + "Deploys release code to final destination",
+    "grunt --conf=<config> watch-deploy ".yellow + "Watch for changes + trigger release-fast and deploys.",
+    "==================================== Deploy configurations ====================================".cyan,
+    JSON.stringify(userConfig.bc.releaseConfigurations, null, 2).green,
+    "========================================== GruntTODO ==========================================".cyan,
     "* Recognize that if selected profile changes, changes should be emitted to ".green,
     "  selected-profile.js (maybe selected profile should just require real profile.)".green,
     "* Make test watch, that waits for build tree to stabilize and runs tests after that".yellow,
@@ -245,7 +250,7 @@ module.exports = function ( grunt ) {
         files: [
           {
             src: [ '**' ],
-            dest: '<%= bc.deploy_dir %>/',
+            dest: '<%= bc.releaseConfigurations["' + deployConfig + '"].path %>/',
             cwd: '<%= bc.release_dir %>',
             expand: true
           }
@@ -436,7 +441,7 @@ module.exports = function ( grunt ) {
           '<%= html2js.app.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedAppConfiguration: '<%= bc.deploy_appConfiguration %>'
+        selectedAppConfiguration: '<%= bc.releaseConfigurations["' + deployConfig + '"].appConfig %>'
       },
 
       release_compile: {
@@ -445,7 +450,7 @@ module.exports = function ( grunt ) {
           '<%= concat.compile_js.dest %>',
           '<%= bc.vendor_files.css %>'
         ],
-        selectedAppConfiguration: '<%= bc.deploy_appConfiguration %>'
+        selectedAppConfiguration: '<%= bc.releaseConfigurations["' + deployConfig + '"].appConfig %>'
       }
 
     },
@@ -455,10 +460,12 @@ module.exports = function ( grunt ) {
         options: {
           port: 3031,
           bases: ['build/debug', 'build'],
-          livereload: true,
+          livereload: true
+/* TODO: Fix this...          ,
           middleware: function (connect) {
             console.log("Serving debug version in http://localhost:3031 and compiled in http://localhost:3031/compiled");
           }
+*/
         }
       }
     },
@@ -679,12 +686,8 @@ module.exports = function ( grunt ) {
     'copy:create_release', 'index:release_build', 'index:release_compile'
   ]);
 
-  // TODO: parse
-  grunt.registerTask( 'release', [
-    'compile', 'clean:release', 'release-tasks'
-  ]);
+  grunt.registerTask( 'release', [ 'compile', 'clean:release', 'release-tasks' ] );
 
-  // TODO: parse
   grunt.registerTask( 'release-fast', [
     'compile-fast', 'clean:release', 'release-tasks'
   ]);
@@ -697,7 +700,18 @@ module.exports = function ( grunt ) {
    * 3. Compile / minify release.
    * 4. Copy deploy directory to final location in .war.
    */
-  grunt.registerTask( 'deploy', [ 'release', 'copy:deploy']);
+  grunt.registerTask( 'deploy', [ 'release', 'deploy-by-type']);
+
+  // http://stackoverflow.com/questions/15284556/how-can-i-run-a-grunt-task-from-within-a-grunt-task
+  grunt.registerTask( 'deploy-by-type', function () {
+    var deployConf = userConfig.bc.releaseConfigurations[deployConfig];
+
+    if (deployConf.type == 'localdir') {
+      grunt.task.run('copy:deploy');
+    } else {
+      grunt.fail.fatal("Deploy type " + deployConf.type + " not implemented.");
+    }
+  });
 
   /**
    * A utility function to get all app JavaScript sources.

@@ -31,7 +31,7 @@ module.exports = {
     releaseConfigurations: {
       default : {
         type : 'localdir',
-        path : 'deployed',
+        path : 'example_deploy_dest',
         appConfig : {
           backend: '/resource'
         }
