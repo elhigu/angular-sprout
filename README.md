@@ -20,10 +20,11 @@ $ cd angular-sprout
 $ sudo npm -g install grunt-cli karma bower
 $ npm install
 $ bower install
-$ grunt watch
+$ grunt watch-build
 ```
 
-Finally, open `file:///path/to/angular-sprout/build/debug/index.html` in your browser.
+Finally, open `http://localhost:3031/index.html` or 
+`http://localhost:3031/compiled/index.html` in your browser.
 
 Currently build system creates 3 different builds.
 
@@ -114,10 +115,59 @@ learn more.
 
 ## Grunt tasks
 
-### Watch
+You can get usage info for grunt by just running `grunt` without any task. There is also
+information about all different deployment options configured in `build.config.js`
 
-This monitors file changes and rebuild changed files to debug/compiled versions and 
-does livereload.
+```
+=======================================#### TASKS ####=========================================
+grunt build                        Build debug version of application with selected profile.
+grunt compile                      Creates concat / uglified version of code 
+                                   under 'compiled/' subpath.
+grunt compile-fast                 Like compile, but does not uglify.
+grunt test                         Runs the test suite.
+grunt watch-build                  Watch changes in all files and rebuild if changes, triggers
+                                   livereload after changes.
+grunt watch-test                   Watch when build tree is stabilized and run tests after
+                                   few seconds. Depends on watch-build being run separately.
+grunt --conf=<config> release      Complete clean build and generation of release files.
+                                   Available configurations are listed in build.config.js
+grunt --conf=<config> release-fast Like release, but does not clean build and does not uglify
+                                   produced result javascript.
+grunt --conf=<config> deploy       Deploys release code to final destination e.g. Amazon S3
+grunt --conf=<config> watch-deploy Watch for changes + trigger release-fast and deploys.
+                                   Depends on watch-build being run
+==================================== Deploy configurations ====================================
+{
+  "default": {
+    "type": "localdir",
+    "path": "example_deploy_dest",
+    "appConfig": {
+      "backend": "/resource"
+    }
+  },
+  "production": {
+    "type": "rackspace",
+    "path": "somerackspacething",
+    "access": "apitoken",
+    "appConfig": {
+      "backend": "https://backend.example.org/api/v1"
+    }
+  },
+  "staging": {
+    "type": "S3",
+    "path": "buckee",
+    "access": "apitoken",
+    "appConfig": {
+      "backend": "https://qa.example.org/api/v1"
+    }
+  }
+}
+========================================== GruntTODO ==========================================
+* Recognize that if selected profile changes, changes should be emitted to 
+  selected-profile.js (maybe selected profile should just require real profile.)
+* Add support to multiple release configurations and different configurations e.g. 
+  for S3  / Rackspace / Directory / scp / anything?
+```
 
 ### Express
 

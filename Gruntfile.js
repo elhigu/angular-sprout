@@ -35,25 +35,24 @@ module.exports = function ( grunt ) {
     "                                   ".yellow + "under 'compiled/' subpath.",
     "grunt compile-fast                 ".yellow + "Like compile, but does not uglify.",
     "grunt test                         ".yellow + "Runs the test suite.",
-    "grunt watch                        ".yellow + "Watch changes in all files and rebuild required parts.",
+    "grunt watch-build                  ".yellow + "Watch changes in all files and rebuild if changes, triggers",
+    "                                   ".yellow + "livereload after changes.",
     "grunt watch-test                   ".yellow + "Watch when build tree is stabilized and run tests after",
-    "                                   ".yellow + "few seconds.",
+    "                                   ".yellow + "few seconds. Depends on watch-build being run separately.",
     "grunt --conf=<config> release      ".yellow + "Complete clean build and generation of release files.",
     "                                   ".yellow + "Available configurations are listed in build.config.js",
     "grunt --conf=<config> release-fast ".yellow + "Like release, but does not clean build and does not uglify",
     "                                   ".yellow + "produced result javascript.",
-    "grunt --conf=<config> deploy       ".yellow + "Deploys release code to final destination",
+    "grunt --conf=<config> deploy       ".yellow + "Deploys release code to final destination e.g. Amazon S3",
     "grunt --conf=<config> watch-deploy ".yellow + "Watch for changes + trigger release-fast and deploys.",
+    "                                   ".yellow + "Depends on watch-build being run",
     "==================================== Deploy configurations ====================================".cyan,
     JSON.stringify(userConfig.bc.releaseConfigurations, null, 2).green,
     "========================================== GruntTODO ==========================================".cyan,
-    "* Recognize that if selected profile changes, changes should be emitted to ".green,
-    "  selected-profile.js (maybe selected profile should just require real profile.)".green,
-    "* Make test watch, that waits for build tree to stabilize and runs tests after that".yellow,
-    "  this way we can deploy changes faster to browser and run tests later.".yellow,
+    "* Recognize that if selected profile changes, changes should be emitted to ".yellow,
+    "  selected-profile.js (maybe selected profile should just require real profile.)".yellow,
     "* Add support to multiple release configurations and different configurations e.g. ".green,
     "  for S3  / Rackspace / Directory / scp / anything?".green,
-    "* Clean implementation for all the tasks above.".yellow
   ];
 
   /**
@@ -390,11 +389,11 @@ module.exports = function ( grunt ) {
       options: {
         configFile: '<%= bc.build_dir %>/karma-unit.js'
       },
-      unit: {
+      runnerDaemon: {
         runnerPort: 9101,
         background: true
       },
-      continuous: {
+      singleRun: {
         singleRun: true
       }
     },
@@ -475,7 +474,7 @@ module.exports = function ( grunt ) {
      * don't have to be managed manually.
      */
     karmaconfig: {
-      unit: {
+      createConfig: {
         dir: '<%= bc.build_dir %>',
         src: [
           '<%= bc.vendor_files.js %>',
@@ -487,107 +486,55 @@ module.exports = function ( grunt ) {
     },
 
     /**
-     * And for rapid development, we have a watch set up that checks to see if
-     * any of the files listed below change, and then to execute the listed
-     * tasks when they do. This just saves us from having to type "grunt" into
-     * the command-line every time we want to see what we're working on; we can
-     * instead just leave "grunt watch" running in a background terminal. Set it
-     * and forget it, as Ron Popeil used to tell us.
+     * Watches:
      *
-     * But we don't need the same thing to happen for all the files.
+     * watch-test   When build has triggered and wrote files under build/debug then wait for
+     *              debounce delay and after that run jshint and testsuite.
      *
-     * TODO: different watches...
-     *       watch build,
-     *       watch compile,
-     *       watch release,
-     *       watch deploy
+     * watch-build  When sources change rebuild system or needed parts... for now the whole
+     *              source is rebuilt.
      *
-     * TODO: Fix if index.html / build.config.js / selected-profile.js /
-     *       profile is changed it should be recognized.
+     * watch-deploy When build is changed also trigger release-tasks and deploy.
+     *
      */
     delta: {
-      /**
-       * By default, we want the Live Reload to work for all tasks; this is
-       * overridden in some tasks (like this file) where browser resources are
-       * unaffected. It runs by default on port 35729, which your browser
-       * plugin should auto-detect.
-       */
-      options: {
-        livereload: true
-      },
 
-      /**
-       * When the Gruntfile changes, we just want to lint it. In fact, when
-       * your Gruntfile changes, it will automatically be reloaded!
-       */
-      gruntfile: {
-        files: 'Gruntfile.js',
-        tasks: [ 'jshint:gruntfile' ],
+      build: {
+        files: [
+          '<%= bc.app_files.js %>',
+          '<%= bc.app_files.html %>',
+          '<%= bc.app_files.atpl %>',
+          '<%= bc.app_files.ctpl %>',
+          '<%= bc.app_files.jsunit %>',
+          'src/**/*.less'
+        ],
+        tasks: [ 'compile-fast' ],
         options: {
-          livereload: false
+          livereload: true,
+          interrupt: false
         }
       },
 
-      /**
-       * When our JavaScript source files change, we want to run lint them and
-       * run our unit tests.
-       */
-      jssrc: {
-        files: [
-          '<%= bc.app_files.js %>'
+      // just check index.html since it is always generated and removed
+      // at start of build this way starting new build interrupts old
+      // task if build cycle is started during tests.
+      test: {
+        files:  [
+          '<%= bc.build_dir %>/index.html'
         ],
-        tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build', 'compile-tasks' ]
-      },
-
-      /**
-       * When assets are changed, copy them. Note that this will *not* copy new
-       * files, so this is probably not very useful.
-       */
-      assets: {
-        files: [
-          'src/assets/**/*'
-        ],
-        tasks: [ 'copy:build_assets', 'compile-tasks' ]
-      },
-
-      /**
-       * When index.html changes, we need to compile it.
-       */
-      html: {
-        files: [ '<%= bc.app_files.html %>' ],
-        tasks: [ 'index:build', 'compile-tasks' ]
-      },
-
-      /**
-       * When our templates change, we only rewrite the template cache.
-       */
-      tpls: {
-        files: [
-          '<%= bc.app_files.atpl %>',
-          '<%= bc.app_files.ctpl %>'
-        ],
-        tasks: [ 'html2js', 'compile-tasks' ]
-      },
-
-      /**
-       * When the CSS files change, we need to compile and minify them.
-       */
-      less: {
-        files: [ 'src/**/*.less', 'compile-tasks' ],
-        tasks: [ 'less' ]
-      },
-
-      /**
-       * When a JavaScript unit test file changes, we only want to lint it and
-       * run the unit tests. We don't want to do any live reloading.
-       */
-      jsunit: {
-        files: [
-          '<%= bc.app_files.jsunit %>'
-        ],
-        tasks: [ 'jshint:test', 'karma:unit:run' ],
+        tasks: ['jshint', 'karmaconfig', 'karma:runnerDaemon:run'],
         options: {
-          livereload: false
+          livereload: false,
+          debounceDelay: 5000,
+          interrupt: false // this will break karma runner daemon if true
+        }
+      },
+
+      deploy: {
+        files: [ '<%= bc.compile_dir %>/index.html' ],
+        tasks: [ 'clean:release', 'release-tasks', 'deploy' ],
+        options: {
+          interrupt: false
         }
       }
     },
@@ -618,10 +565,17 @@ module.exports = function ( grunt ) {
    * before watching for changes.
    */
   grunt.renameTask( 'watch', 'delta' );
-  grunt.registerTask( 'watch', [
-    'compile',                    // build & compile
-    'karma:unit',                 // start karma test runner to port 9018
-    'express', 'delta' ] );       // start serving built app
+
+  grunt.registerTask( 'watch-build', [
+    'compile-fast',               // build & compile
+    'express', 'delta:build' ] ); // start serving built app and watch for changes
+
+  grunt.registerTask( 'watch-test', [
+    'karma:runnerDaemon', // start karma test runner to port 9018
+    'delta:test'
+  ] );
+
+  grunt.registerTask( 'watch-deploy', [ 'delta:deploy' ] );
 
   /**
    * The default task is to print usage information
@@ -634,7 +588,7 @@ module.exports = function ( grunt ) {
     'build', 'run-tests' ]);
 
   grunt.registerTask( 'run-tests', 'Run tests without re-building.', [
-    'karmaconfig', 'karma:continuous' ]);
+    'karmaconfig', 'karma:singleRun' ]);
 
   grunt.registerTask( 'build', 'Clean old build files and build.',
     [ 'clean:build', 'build-tasks' ]);
