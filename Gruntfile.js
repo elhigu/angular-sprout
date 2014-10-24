@@ -522,7 +522,7 @@ module.exports = function ( grunt ) {
         files:  [
           '<%= bc.build_dir %>/index.html'
         ],
-        tasks: ['jshint', 'karmaconfig', 'karma:runnerDaemon:run'],
+        tasks: ['karmaconfig', 'karma:runnerDaemon:run'],
         options: {
           livereload: false,
           debounceDelay: 5000,
