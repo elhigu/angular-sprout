@@ -698,6 +698,12 @@ module.exports = function ( grunt ) {
     var compileDir = grunt.config('bc.compile_dir') + "/";
     var releaseDir = grunt.config('bc.release_dir') + "/";
 
+    // convert all paths to unix style
+    buildDir = buildDir.split(path.sep).join("/");
+    compileDir = compileDir.split(path.sep).join("/");
+    releaseDir = releaseDir.split(path.sep).join("/");
+
+
     var removePrefixRegex = new RegExp(
         "^(" + buildDir + "|" + compileDir + "|" + releaseDir + ")");
 
