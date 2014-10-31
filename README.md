@@ -23,6 +23,8 @@ $ bower install
 $ grunt watch-build
 ```
 
+
+
 Finally, open `http://localhost:3031/index.html` or 
 `http://localhost:3031/compiled/index.html` in your browser.
 
