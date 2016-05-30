@@ -1,6 +1,8 @@
 # Minimal angular application template
 Based on wonderful ngbp (https://github.com/ngbp/ngbp) template by @joshdmiller 
 
+THIS PROJECT SEED IS DEPRECATED! I'm not updating this anymore and if you think starting new project with Angular 1 probably you should reconsider that decicion.
+
 * Includes Bootstrap3 and angular ui-router
 * Generic app name to lessen work when using template to start new project.
 * Builds non-optimized, compiled and release versions of application
