@@ -1,4 +1,6 @@
 # Minimal angular application template
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/elhigu/angular-sprout.svg)](https://greenkeeper.io/)
 Based on wonderful ngbp (https://github.com/ngbp/ngbp) template by @joshdmiller 
 
 THIS PROJECT SEED IS DEPRECATED! I'm not updating this anymore and if you think starting new project with Angular 1 probably you should reconsider that decicion.
